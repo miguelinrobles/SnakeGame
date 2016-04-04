@@ -55,7 +55,7 @@ public class Segment
     /**
      * Devuelve posicion inicial X 
      */
-    public int getPosicionInicialX()
+    public int getPosicionXInicial()
     {
         return posicionX;
     }
@@ -63,8 +63,38 @@ public class Segment
     /**
      * Devuelve posicion inicial Y 
      */
-    public int getPosicionInicialY()
+    public int getPosicionYInicial()
     {
         return posicionY;
+    }
+    
+    /**
+     * Devuelve posicion final X 
+     */
+    public int getPosicionXFinal()
+    {
+        int posicionXFinal = posicionX;
+        if (direccion == 0) {
+            posicionXFinal += LONGITUD_SEGMENTO;
+        }
+        else if (direccion == 180) {
+            posicionXFinal -= LONGITUD_SEGMENTO;
+        }
+        return posicionXFinal;
+    }
+    
+    /**
+     * Devuelve posicion final Y 
+     */
+    public int getPosicionYFinal()
+    {
+        int posicionYFinal = posicionY;
+        if (direccion == 90) {
+            posicionYFinal += LONGITUD_SEGMENTO;
+        }
+        else if (direccion == 270) {
+            posicionYFinal -= LONGITUD_SEGMENTO;
+        }
+        return posicionYFinal;
     }
 }
