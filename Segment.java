@@ -97,4 +97,12 @@ public class Segment
         }
         return posicionYFinal;
     }
+    
+    /**
+     * Devuelve la direccion del segmento en grados
+     */
+    public int getDireccion()
+    {
+        return direccion;
+    }
 }
