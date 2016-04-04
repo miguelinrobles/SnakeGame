@@ -13,7 +13,7 @@ public class Segment
     // Punto inicial Y
     private int posicionY;
     // Longitud del segmento
-    public static final int LONGITUD_SEGMENTO = 100;
+    public static final int LONGITUD_SEGMENTO = 4;
     // Direccion en la que se dibuja el segmento
     private int direccion;
     // Color del segmento
@@ -51,7 +51,7 @@ public class Segment
         pen.turnTo(direccion);
         pen.move(LONGITUD_SEGMENTO);
     }
-    
+
     /**
      * Devuelve posicion inicial X 
      */
@@ -59,7 +59,7 @@ public class Segment
     {
         return posicionX;
     }
-    
+
     /**
      * Devuelve posicion inicial Y 
      */
@@ -67,7 +67,7 @@ public class Segment
     {
         return posicionY;
     }
-    
+
     /**
      * Devuelve posicion final X 
      */
@@ -82,7 +82,7 @@ public class Segment
         }
         return posicionXFinal;
     }
-    
+
     /**
      * Devuelve posicion final Y 
      */
@@ -97,12 +97,20 @@ public class Segment
         }
         return posicionYFinal;
     }
-    
+
     /**
      * Devuelve la direccion del segmento en grados
      */
     public int getDireccion()
     {
         return direccion;
+    }
+
+    /**
+     * Comprueba si el segmento colisiona con el segmento pasado como parámetro
+     */
+    public boolean colisionaCon(Segment segmento)
+    {
+        return ((segmento.getPosicionXInicial() == getPosicionXFinal()) && (segmento.getPosicionYInicial() == getPosicionYFinal()));
     }
 }
