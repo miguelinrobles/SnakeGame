@@ -13,7 +13,7 @@ public class Segment
     // Punto inicial Y
     private int posicionY;
     // Longitud del segmento
-    public static final int LONGITUD_SEGMENTO = 4;
+    public static final int LONGITUD_SEGMENTO = 100;
     // Direccion en la que se dibuja el segmento
     private int direccion;
     // Color del segmento
@@ -37,6 +37,17 @@ public class Segment
     {
         Pen pen = new Pen(posicionX, posicionY, lienzo);
         pen.setColor(color);
+        pen.turnTo(direccion);
+        pen.move(LONGITUD_SEGMENTO);
+    }
+
+    /**
+     * Borra el segmeto
+     */
+    public void borrar(Canvas lienzo)
+    {
+        Pen pen = new Pen(posicionX, posicionY, lienzo);
+        pen.setColor(lienzo.getBackgroundColor());
         pen.turnTo(direccion);
         pen.move(LONGITUD_SEGMENTO);
     }
