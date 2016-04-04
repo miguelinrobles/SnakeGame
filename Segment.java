@@ -51,4 +51,20 @@ public class Segment
         pen.turnTo(direccion);
         pen.move(LONGITUD_SEGMENTO);
     }
+    
+    /**
+     * Devuelve posicion inicial X 
+     */
+    public int getPosicionInicialX()
+    {
+        return posicionX;
+    }
+    
+    /**
+     * Devuelve posicion inicial Y 
+     */
+    public int getPosicionInicialY()
+    {
+        return posicionY;
+    }
 }
