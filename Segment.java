@@ -29,4 +29,15 @@ public class Segment
         this.direccion = direccion;
         this.color = color;
     }
+
+    /**
+     * Dibuja el segmento sobre el lienzo pasado como parámetro
+     */
+    public void dibujar(Canvas lienzo)
+    {
+        Pen pen = new Pen(posicionX, posicionY, lienzo);
+        pen.setColor(color);
+        pen.turnTo(direccion);
+        pen.move(LONGITUD_SEGMENTO);
+    }
 }
