@@ -137,4 +137,14 @@ public class Snake
         }
         return colisiona;
     }
+    
+    /**
+     * Simula el movimiento de la serpiente. 
+     */
+    public boolean mover(Canvas lienzo)
+    {
+        segmentos.remove(0);
+        boolean valor = addSegment();
+        return valor;
+    }
 }
