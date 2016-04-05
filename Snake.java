@@ -12,7 +12,7 @@ public class Snake
 {
     private int anchoLienzo;
     private int altoLienzo;
-    public static final int NUMERO_SEGMENTOS_INICIALES = 5;
+    public static final int NUMERO_SEGMENTOS_INICIALES = 13;
     public static final Color COLOR_SERPIENTE = Color.BLACK;
     private ArrayList<Segment> segmentos;   
     public static final int DIFERENCIA_DE_GRADOS_ENTRE_DIRECCIONES = 90;
@@ -146,5 +146,25 @@ public class Snake
         segmentos.remove(0);
         boolean valor = addSegment();
         return valor;
+    }
+    
+    /**
+     * Mueve la serpiente por toda la pantalla. 
+     * La animación termina en caso de que la serpiente quede 
+     * encerrada sobre ella misma o sobre un borde del lienzo 
+     * mostrando el mensaje "Game Over"
+     */
+    public void animateSnake(Canvas lienzo) {
+        boolean valorMover = true;
+        while(valorMover) {
+            borrar(lienzo);
+            valorMover = mover(lienzo);
+            dibujar(lienzo);
+            lienzo.wait(150);
+        }
+
+        final int SITUACION_X_TITULO = anchoLienzo / 2 -30;
+        final int SITUACION_Y_TITULO = altoLienzo / 2 -30;
+        lienzo.drawString("Game Over", SITUACION_X_TITULO, SITUACION_Y_TITULO);
     }
 }
