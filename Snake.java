@@ -50,4 +50,19 @@ public class Snake
         }
         return colisiona;
     }
+    
+    /**
+     * Comprueba si el segmento pasado colisiona con los bordes
+     */
+    public boolean colisionaConLosBordes(Segment segmento)
+    {
+        boolean colisiona = false;
+        if (segmento.getPosicionFinalX() < MARGEN_LIENZO || segmento.getPosicionFinalX() > anchoLienzo - MARGEN_LIENZO) {
+            colisiona = true;
+        }
+        else if (segmento.getPosicionFinalY() < MARGEN_LIENZO || segmento.getPosicionFinalY() > anchoLienzo - MARGEN_LIENZO) {
+            colisiona = true;
+        }
+        return colisiona;
+    }
 }

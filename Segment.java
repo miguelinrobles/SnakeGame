@@ -55,7 +55,7 @@ public class Segment
     /**
      * Devuelve posicion inicial X 
      */
-    public int getPosicionXInicial()
+    public int getPosicionInicialX()
     {
         return posicionX;
     }
@@ -63,7 +63,7 @@ public class Segment
     /**
      * Devuelve posicion inicial Y 
      */
-    public int getPosicionYInicial()
+    public int getPosicionInicialY()
     {
         return posicionY;
     }
@@ -71,7 +71,7 @@ public class Segment
     /**
      * Devuelve posicion final X 
      */
-    public int getPosicionXFinal()
+    public int getPosicionFinalX()
     {
         int posicionXFinal = posicionX;
         if (direccion == 0) {
@@ -86,7 +86,7 @@ public class Segment
     /**
      * Devuelve posicion final Y 
      */
-    public int getPosicionYFinal()
+    public int getPosicionFinalY()
     {
         int posicionYFinal = posicionY;
         if (direccion == 90) {
@@ -111,6 +111,6 @@ public class Segment
      */
     public boolean colisionaCon(Segment segmento)
     {
-        return ((segmento.getPosicionXInicial() == getPosicionXFinal()) && (segmento.getPosicionYInicial() == getPosicionYFinal()));
+        return ((segmento.getPosicionFinalX() == posicionX) && (segmento.getPosicionFinalY() == posicionY));
     }
 }
