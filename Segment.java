@@ -13,7 +13,7 @@ public class Segment
     // Punto inicial Y
     private int posicionY;
     // Longitud del segmento
-    public static final int LONGITUD_SEGMENTO = 4;
+    public static final int LONGITUD_SEGMENTO = 18;
     // Direccion en la que se dibuja el segmento
     private int direccion;
     // Color del segmento
@@ -109,7 +109,7 @@ public class Segment
     /**
      * Comprueba si el segmento colisiona con el segmento pasado como parámetro
      */
-    public boolean colisionaCon(Segment segmento)
+    public boolean colisiona(Segment segmento)
     {
         return ((segmento.getPosicionFinalX() == posicionX) && (segmento.getPosicionFinalY() == posicionY));
     }
