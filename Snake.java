@@ -147,4 +147,36 @@ public class Snake
         boolean valor = addSegment();
         return valor;
     }
+    
+    /**
+     * Devuelve la posicion final X del segmento en el que se encuentra la cabeza
+     */
+    public int getPosicionXFinalUltimo()
+    {
+        return segmentos.get(segmentos.size() - 1).getPosicionFinalX();
+    }
+    
+    /**
+     * Devuelve la posicion final Y del segmento en el que se encuentra la cabeza
+     */
+    public int getPosicionYFinalUltimo()
+    {
+        return segmentos.get(segmentos.size() - 1).getPosicionFinalY();
+    }
+    
+    /**
+     * Devuelve la posicion inicial X del segmento en el que se encuentra la cabeza
+     */
+    public int getPosicionXInicialUltimo()
+    {
+        return segmentos.get(segmentos.size() - 1).getPosicionInicialX();
+    }
+    
+    /**
+     * Devuelve la posicion incial Y del segmento en el que se encuentra la cabeza
+     */
+    public int getPosicionYInicialUltimo()
+    {
+        return segmentos.get(segmentos.size() - 1).getPosicionInicialY();
+    }
 }

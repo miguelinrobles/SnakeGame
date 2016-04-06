@@ -7,7 +7,7 @@ public class SnakeGame
     private Snake serpiente;
     private static final int ANCHO_LIENZO = 500;
     private static final int ALTO_LIENZO = 500;
-    
+    private ArrayList<Galleta> galletas;
     /*
      * Constructor de la clase Snake
      */
@@ -53,7 +53,7 @@ public class SnakeGame
     public void startGame()
     {
         drawSnake();
-        ArrayList<Galleta> galletas = new ArrayList<>();
+        galletas = new ArrayList<>();
         final int NUMERO_GALLETAS = 10; 
         for (int index = 0; index < NUMERO_GALLETAS; index++) {
             galletas.add(new Galleta(ANCHO_LIENZO, ALTO_LIENZO));
