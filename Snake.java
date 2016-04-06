@@ -12,7 +12,7 @@ public class Snake
 {
     private int anchoLienzo;
     private int altoLienzo;
-    public static final int NUMERO_SEGMENTOS_INICIALES = 13;
+    public static final int NUMERO_SEGMENTOS_INICIALES = 5;
     public static final Color COLOR_SERPIENTE = Color.BLACK;
     private ArrayList<Segment> segmentos;   
     public static final int DIFERENCIA_DE_GRADOS_ENTRE_DIRECCIONES = 90;
