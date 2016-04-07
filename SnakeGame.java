@@ -19,7 +19,7 @@ public class SnakeGame
     /*
      * Dibuja una serpiente en la pantalla
      */
-    public void drawSnake()
+    private void drawSnake()
     {
         serpiente = new Snake(ANCHO_LIENZO,ALTO_LIENZO);
         lienzo.erase();
@@ -31,7 +31,7 @@ public class SnakeGame
      * La animación termina en caso de que la serpiente quede encerrada sobre ella misma o sobre un borde del lienzo. 
      * En este caso el juego acaba y muestra el mensaje "Game Over"
      */
-    public void animateSnake() {
+    private void animateSnake() {
         boolean valorMover = true;
         while(valorMover) {
             int xInicial = serpiente.getPosicionXInicialUltimo();// Puntos del último segmento
@@ -60,7 +60,7 @@ public class SnakeGame
             }
 
             serpiente.borrar(lienzo);
-            valorMover = serpiente.mover(lienzo);
+            valorMover = serpiente.mover();
             serpiente.dibujar(lienzo);
             lienzo.wait(150);
         }

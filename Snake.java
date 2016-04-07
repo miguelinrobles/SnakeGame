@@ -141,7 +141,7 @@ public class Snake
     /**
      * Simula el movimiento de la serpiente. 
      */
-    public boolean mover(Canvas lienzo)
+    public boolean mover()
     {
         segmentos.remove(0);
         boolean valor = addSegment();
