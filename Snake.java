@@ -144,8 +144,7 @@ public class Snake
     public boolean mover()
     {
         segmentos.remove(0);
-        boolean valor = addSegment();
-        return valor;
+        return addSegment();
     }
     
     /**
