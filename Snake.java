@@ -17,7 +17,7 @@ public class Snake
     private ArrayList<Segment> segmentos;   
     public static final int DIFERENCIA_DE_GRADOS_ENTRE_DIRECCIONES = 90;
     public static final int MARGEN_LIENZO = 10;
-    public static final int TAMANO_CABEZA = 5;
+    public static final int TAMANO_CABEZA = 6;
 
     /*
      * Constructor de la clase Snake
@@ -192,22 +192,23 @@ public class Snake
         int posicionInicialY = galleta.getPosicionInicialY();
         int posicionInicialX = galleta.getPosicionInicialX();
         
+        int xFinal = getPosicionXFinalUltimo();// Sacamos estos puntos que vamos
+        int yFinal = getPosicionYFinalUltimo();// a usar en las dos alternativas
+        
+        int radioCabeza = TAMANO_CABEZA / 2;
+        
         if (getPosicionYFinalUltimo() == getPosicionYInicialUltimo()) {
-            int xFinal = getPosicionXFinalUltimo();
             int xInicial = getPosicionXInicialUltimo();
             if ((xFinal >= posicionInicialX && xInicial <= posicionFinalX) || (xFinal <= posicionFinalX && xInicial >= posicionInicialX)){
-                int yFinal = getPosicionYFinalUltimo();
-                if (yFinal >= posicionInicialY && yFinal <= posicionFinalY) {
+                if ((yFinal + radioCabeza > posicionInicialY) && (yFinal - radioCabeza < posicionFinalY)) {
                     comer = true;
                 }
             }
         }
         else {
-            int yFinal = getPosicionYFinalUltimo(); 
             int yInicial = getPosicionYInicialUltimo();
             if ((yFinal >= posicionInicialY && yInicial <= posicionFinalY) || (yFinal <= posicionFinalY && yInicial >= posicionInicialY)){
-                int xFinal = getPosicionXFinalUltimo();
-                if (xFinal >= posicionInicialX && xFinal <= posicionFinalX) {
+                if (xFinal + radioCabeza > posicionInicialX && xFinal - radioCabeza < posicionFinalX) {
                     comer = true;
                 }
             }
