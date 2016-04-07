@@ -34,12 +34,7 @@ public class SnakeGame
     private void animateSnake() {
         boolean valorMover = true;
         while(valorMover) {
-            int xInicial = serpiente.getPosicionXInicialUltimo();// Puntos del último segmento
-            int yInicial = serpiente.getPosicionYInicialUltimo();
-            int xFinal = serpiente.getPosicionXFinalUltimo();
-            int yFinal = serpiente.getPosicionYFinalUltimo();
-            int index = 0;
-
+            int index = 0;          
             while (index < galletas.size() && valorMover) {
                 Galleta galleta = galletas.get(index);
                 if (serpiente.comerGalleta(galleta)) {
@@ -49,16 +44,9 @@ public class SnakeGame
                     valorMover = serpiente.addSegment();
                     serpiente.dibujar(lienzo);
                     lienzo.wait(150);
-
-                    xInicial = serpiente.getPosicionXInicialUltimo();// Puntos del último segmento
-                    yInicial = serpiente.getPosicionYInicialUltimo();
-                    xFinal = serpiente.getPosicionXFinalUltimo();
-                    yFinal = serpiente.getPosicionYFinalUltimo();
-                    
                 }
                 index++;
             }
-
             serpiente.borrar(lienzo);
             valorMover = serpiente.mover();
             serpiente.dibujar(lienzo);
