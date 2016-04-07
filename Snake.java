@@ -179,4 +179,39 @@ public class Snake
     {
         return segmentos.get(segmentos.size() - 1).getPosicionInicialY();
     }
+    
+    /**
+     * Coprueba si la galleta que le pasamos como parámetro
+     * puede ser comida por la serpiente
+     */
+    public boolean comerGalleta(Galleta galleta)
+    {
+        boolean comer = false;
+        int posicionFinalX = galleta.getPosicionFinalX();// Puntos de la galleta
+        int posicionFinalY = galleta.getPosicionFinalY();
+        int posicionInicialY = galleta.getPosicionInicialY();
+        int posicionInicialX = galleta.getPosicionInicialX();
+        
+        if (getPosicionYFinalUltimo() == getPosicionYInicialUltimo()) {
+            int xFinal = getPosicionXFinalUltimo();
+            int xInicial = getPosicionXInicialUltimo();
+            if ((xFinal >= posicionInicialX && xInicial <= posicionFinalX) || (xFinal <= posicionFinalX && xInicial >= posicionInicialX)){
+                int yFinal = getPosicionYFinalUltimo();
+                if (yFinal >= posicionInicialY && yFinal <= posicionFinalY) {
+                    comer = true;
+                }
+            }
+        }
+        else {
+            int yFinal = getPosicionYFinalUltimo(); 
+            int yInicial = getPosicionYInicialUltimo();
+            if ((yFinal >= posicionInicialY && yInicial <= posicionFinalY) || (yFinal <= posicionFinalY && yInicial >= posicionInicialY)){
+                int xFinal = getPosicionXFinalUltimo();
+                if (xFinal >= posicionInicialX && xFinal <= posicionFinalX) {
+                    comer = true;
+                }
+            }
+        }
+        return comer;
+    }
 }

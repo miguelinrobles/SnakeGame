@@ -27,34 +27,6 @@ public class SnakeGame
     }
     
     /**
-     * Coprueba si la galleta que le pasamos como parámetro
-     * puede ser comida por la serpiente
-     */
-    private boolean puedeComerGalleta(Galleta galleta, int xInicial, int yInicial, int xFinal, int yFinal)
-    {
-        boolean comer = false;
-        int posicionFinalX = galleta.getPosicionFinalX();// Puntos de la galleta
-        int posicionFinalY = galleta.getPosicionFinalY();
-        int posicionInicialY = galleta.getPosicionInicialY();
-        int posicionInicialX = galleta.getPosicionInicialX();
-        if (yInicial == yFinal) {
-            if ((xFinal >= posicionInicialX && xInicial <= posicionFinalX) || (xFinal <= posicionFinalX && xInicial >= posicionInicialX)){
-                if (yFinal >= posicionInicialY && yFinal <= posicionFinalY) {
-                    comer = true;
-                }
-            }
-        }
-        else {
-            if ((yFinal >= posicionInicialY && yInicial <= posicionFinalY) || (yFinal <= posicionFinalY && yInicial >= posicionInicialY)){
-                if (xFinal >= posicionInicialX && xFinal <= posicionFinalX) {
-                    comer = true;
-                }
-            }
-        }
-        return comer;
-    }
-    
-    /**
      * Mueve la serpiente por toda la pantalla. 
      * La animación termina en caso de que la serpiente quede encerrada sobre ella misma o sobre un borde del lienzo. 
      * En este caso el juego acaba y muestra el mensaje "Game Over"
@@ -70,7 +42,7 @@ public class SnakeGame
 
             while (index < galletas.size() && valorMover) {
                 Galleta galleta = galletas.get(index);
-                if (puedeComerGalleta(galleta, xInicial, yInicial, xFinal, yFinal)) {
+                if (serpiente.comerGalleta(galleta)) {
                     galletas.remove(galleta);
                     galleta.borrar(lienzo);
                     serpiente.borrar(lienzo);
@@ -107,7 +79,7 @@ public class SnakeGame
     {
         drawSnake();
         galletas = new ArrayList<>();
-        final int NUMERO_GALLETAS = 10; 
+        final int NUMERO_GALLETAS = 50; 
         for (int index = 0; index < NUMERO_GALLETAS; index++) {
             galletas.add(new Galleta(ANCHO_LIENZO, ALTO_LIENZO));
             galletas.get(index).dibujar(lienzo);
