@@ -17,7 +17,7 @@ public class Snake
     private ArrayList<Segment> segmentos;   
     public static final int DIFERENCIA_DE_GRADOS_ENTRE_DIRECCIONES = 90;
     public static final int MARGEN_LIENZO = 10;
-    public static final int TAMANO_CABEZA = 6;
+    public static final int TAMANO_CABEZA = 8;
 
     /*
      * Constructor de la clase Snake
