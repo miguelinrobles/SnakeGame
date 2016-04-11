@@ -1,6 +1,6 @@
 import java.util.Random;
 import java.util.ArrayList;
-
+import java.awt.Color;
 public class SnakeGame
 {
     private Canvas lienzo;
@@ -8,6 +8,9 @@ public class SnakeGame
     private static final int ANCHO_LIENZO = 500;
     private static final int ALTO_LIENZO = 500;
     private Galleta galleta;
+    private int puntos;
+    private final int SITUACION_X_MARCADOR = 220;
+    private final int SITUACION_Y_MARCADOR = 12;
 
     /*
      * Constructor de la clase Snake
@@ -15,7 +18,9 @@ public class SnakeGame
     public SnakeGame()
     {        
         lienzo = new Canvas("Snake game", ANCHO_LIENZO, ALTO_LIENZO);
+        lienzo.setBackgroundColor(Color.CYAN);
         galleta = null;
+        puntos = 0;
         serpiente = new Snake(ANCHO_LIENZO,ALTO_LIENZO, "w", "x", "a", "d");
         lienzo.addKeyboard(serpiente);
     }
@@ -30,6 +35,34 @@ public class SnakeGame
     }
 
     /**
+     * Coloca el marcador de puntos en la pantalla
+     */
+    private void situarMarcador()
+    {   
+        lienzo.drawString("PUNTOS: " + puntos, SITUACION_X_MARCADOR, SITUACION_Y_MARCADOR);
+    }
+
+    /**
+     * Muestra los puntos cuando se come alguna galleta
+     */
+    private void puntuar()
+    {
+        lienzo.eraseString("PUNTOS: " + puntos, SITUACION_X_MARCADOR, SITUACION_Y_MARCADOR);
+        puntos += 10;
+        lienzo.drawString("PUNTOS: " + puntos, SITUACION_X_MARCADOR, SITUACION_Y_MARCADOR);
+    }
+    
+    /**
+     * Muestra mensaje cuando se acaba el juego
+     */
+    private void finJuego()
+    {
+        final int SITUACION_X_TITULO = ANCHO_LIENZO / 2 -30;
+        final int SITUACION_Y_TITULO = ALTO_LIENZO / 2 -30;
+        lienzo.drawString("GAME OVER", SITUACION_X_TITULO, SITUACION_Y_TITULO);
+    }
+
+    /**
      * Mueve la serpiente por toda la pantalla. 
      * La animación termina en caso de que la serpiente quede encerrada sobre ella misma o sobre un borde del lienzo. 
      * Cada vez que come una galleta, la serpiente aumenta de longitud
@@ -37,6 +70,7 @@ public class SnakeGame
      */
     private void animateSnake() {
         boolean valorMover = true;
+        final int PAUSA = 150;
         while (valorMover) {
             if (serpiente.comerGalleta(galleta)) {
                 galleta.borrar(lienzo);
@@ -44,16 +78,15 @@ public class SnakeGame
                 valorMover = serpiente.addSegmentMovimiento();
                 serpiente.dibujar(lienzo);
                 dibujarGalleta();
-                lienzo.wait(100);
+                lienzo.wait(PAUSA);
+                puntuar();
             }           
             serpiente.borrar(lienzo);
             valorMover = serpiente.mover();
             serpiente.dibujar(lienzo);
-            lienzo.wait(200);           
+            lienzo.wait(PAUSA);           
         }
-        final int SITUACION_X_TITULO = ANCHO_LIENZO / 2 -30;
-        final int SITUACION_Y_TITULO = ALTO_LIENZO / 2 -30;
-        lienzo.drawString("Game Over", SITUACION_X_TITULO, SITUACION_Y_TITULO);
+        finJuego();
     }
 
     /**
@@ -73,6 +106,7 @@ public class SnakeGame
     {
         drawSnake();
         dibujarGalleta();
-        animateSnake();
+        situarMarcador();
+        animateSnake();        
     }
 }

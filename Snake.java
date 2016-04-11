@@ -16,7 +16,7 @@ public class Snake
     public static final Color COLOR_SERPIENTE = Color.BLACK;
     private ArrayList<Segment> segmentos;   
     public static final int DIFERENCIA_DE_GRADOS_ENTRE_DIRECCIONES = 90;
-    public static final int MARGEN_LIENZO = 10;
+    public static final int MARGEN_LIENZO = 20;
     public static final int TAMANO_CABEZA = 8;
     // Atributos de las teclas para el movimiento
     private String up, down, lef, rig;
