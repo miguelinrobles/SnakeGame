@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.util.Random;
+import java.util.ArrayList;
 
 /**
  * Write a description of class Galleta here.
@@ -20,14 +21,11 @@ public class Galleta
     /**
      * Constructor for objects of class Galleta
      */
-    public Galleta(int altoLienzo, int anchoLienzo)
+    public Galleta(int altoLienzo, int anchoLienzo, ArrayList<Segment> segments)
     {
         this.altoLienzo = altoLienzo;
-        this.anchoLienzo = anchoLienzo;
-        Random aleatorio = new Random();
-        int margenLienzo = Snake.MARGEN_LIENZO;
-        posicionX = aleatorio.nextInt(anchoLienzo - (2 * margenLienzo)) + margenLienzo - (DIAMETRO_GALLETA / 2);
-        posicionY = aleatorio.nextInt(anchoLienzo - (2 * margenLienzo)) + margenLienzo - (DIAMETRO_GALLETA / 2);
+        this.anchoLienzo = anchoLienzo;        
+        poscionesValidas(segments);
     }
 
     /**
@@ -36,7 +34,7 @@ public class Galleta
     public void dibujar(Canvas lienzo)
     {
         lienzo.setForegroundColor(COLOR_GALLETA);
-        lienzo.fillCircle(posicionX, posicionY, DIAMETRO_GALLETA);
+        lienzo.fillCircle(posicionX - DIAMETRO_GALLETA / 2, posicionY - DIAMETRO_GALLETA / 2, DIAMETRO_GALLETA);
     }
 
     /**
@@ -44,13 +42,13 @@ public class Galleta
      */
     public void borrar(Canvas lienzo)
     {
-        lienzo.eraseCircle(posicionX, posicionY, DIAMETRO_GALLETA);
+        lienzo.eraseCircle(posicionX - DIAMETRO_GALLETA / 2, posicionY - DIAMETRO_GALLETA / 2, DIAMETRO_GALLETA);
     }
 
     /**
      * Devuelve el punto mas a la izquierda de la galleta en el eje X
      */
-    public int getPosicionInicialX()
+    public int getPosicionX()
     {
         return posicionX;
     }
@@ -58,24 +56,34 @@ public class Galleta
     /**
      * Devuelve el punto mas alto de la galleta en el eje Y
      */
-    public int getPosicionInicialY()
+    public int getPosicionY()
     {
         return posicionY;
     }
-    
-    /**
-     * Devuelve el punto mas a la derecha de la galleta en el eje X
-     */
-    public int getPosicionFinalX()
+
+    private void generaPuntosGalleta()
     {
-        return posicionX + DIAMETRO_GALLETA;
+        Random aleatorio = new Random();
+        int margenLienzo = Snake.MARGEN_LIENZO;
+        posicionX = aleatorio.nextInt((anchoLienzo - (2 * margenLienzo))  / Segment.LONGITUD_SEGMENTO) 
+        * Segment.LONGITUD_SEGMENTO + margenLienzo;
+        posicionY = aleatorio.nextInt((anchoLienzo - (2 * margenLienzo))  / Segment.LONGITUD_SEGMENTO)
+        * Segment.LONGITUD_SEGMENTO + margenLienzo;
     }
 
     /**
-     * Devuelve el punto mas bajo de la galleta en el eje Y
+     * Establece las posiciones válidas para la galletas
      */
-    public int getPosicionFinalY()
-    {
-        return posicionY + DIAMETRO_GALLETA;
+    private void poscionesValidas(ArrayList<Segment> segments)
+    {  
+        boolean puntoValido = true;
+        do {
+            generaPuntosGalleta();
+            for (Segment segment : segments) {
+                if (segment.getPosicionFinalX() == posicionX && segment.getPosicionFinalY() == posicionY) {
+                    puntoValido = false;
+                }
+            }            
+        }while (!puntoValido);
     }
 }

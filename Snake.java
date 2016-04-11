@@ -18,17 +18,24 @@ public class Snake
     public static final int DIFERENCIA_DE_GRADOS_ENTRE_DIRECCIONES = 90;
     public static final int MARGEN_LIENZO = 10;
     public static final int TAMANO_CABEZA = 8;
+    // Atributos de las teclas para el movimiento
+    private String up, down, lef, rig;
+    // Direccion inicial hacia abajo
+    private int direccion = 90;
 
     /*
      * Constructor de la clase Snake
      */
-    public Snake(int anchoLienzo, int altoLienzo)
+    public Snake(int anchoLienzo, int altoLienzo, String up, String down, String lef, String rig)
     {
         this.anchoLienzo = anchoLienzo;
         this.altoLienzo = altoLienzo;
         segmentos = new ArrayList<>();
-        for (int i = 0; i < NUMERO_SEGMENTOS_INICIALES; i++) {
-            addSegment();
+        // Teclas para el movimiento
+        this.rig = rig; this.lef = lef; this.up = up; this.down = down;
+        addPrimerSegment();
+        for (int i = 1; i < NUMERO_SEGMENTOS_INICIALES; i++) {
+            addSegmentMovimiento();
         }
     }
 
@@ -40,7 +47,6 @@ public class Snake
         for (Segment segmento : segmentos) {
             segmento.dibujar(lienzo);
         }
-        //lienzo.setForegroundColor(COLOR_SERPIENTE);
         Segment ultimoSegmento = segmentos.get(segmentos.size()-1);
         lienzo.fillCircle(ultimoSegmento.getPosicionFinalX()-(TAMANO_CABEZA/2),ultimoSegmento.getPosicionFinalY()-(TAMANO_CABEZA/2), TAMANO_CABEZA);
     }
@@ -58,45 +64,13 @@ public class Snake
     }
 
     /*
-     * Adiciona un segmento aleatorio a la serpiente. Devuelve true en caso de que
-     * haya sido capaz de añadir un nuevo segmento y false en otro caso.
+     * Añade el primer segmento de la serpiente en la posicion indicada
      */
-    public boolean addSegment() 
+    public void addPrimerSegment() 
     {
-        boolean segmentoAdicionado = false;
-
-        Random aleatorio = new Random();
-        ArrayList<Integer> direcciones = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            direcciones.add(i * DIFERENCIA_DE_GRADOS_ENTRE_DIRECCIONES);
-        }
-
-        //Calculamos las coordenadas de inicio del segmento: si no había
-        //segmentos, lo ubicamos en una posicion aleatoria; si los había, al final del ultimo
-        //segmento
-        int posicionOrigenX = aleatorio.nextInt(anchoLienzo - (2 * MARGEN_LIENZO)) + MARGEN_LIENZO; 
-        int posicionOrigenY = aleatorio.nextInt(altoLienzo - (2 * MARGEN_LIENZO)) + MARGEN_LIENZO; 
-        if (segmentos.size() != 0) {
-            posicionOrigenX = segmentos.get(segmentos.size() - 1).getPosicionFinalX();
-            posicionOrigenY = segmentos.get(segmentos.size() - 1).getPosicionFinalY();
-        }
-
-        //Probamos todos los segmentos posibles hasta que demos con uno valido
-        //o hayamos probado los posibles 4 nuevos segmentos
-        Segment posibleNuevoSegmento = null;
-        while (!direcciones.isEmpty() && !segmentoAdicionado) {
-            int direccion = direcciones.remove(aleatorio.nextInt(direcciones.size()));
-            posibleNuevoSegmento = new Segment(posicionOrigenX, posicionOrigenY, direccion, COLOR_SERPIENTE);
-            segmentoAdicionado = esSegmentoValido(posibleNuevoSegmento);                             
-        }
-
-        //Si hemos encontrado un segmento valido lo añadimos a la
-        //serpiente; si no, informamos por pantalla
-        if (segmentoAdicionado) {
-            segmentos.add(posibleNuevoSegmento);
-        }
-
-        return segmentoAdicionado;
+        int xPosition = 200;
+        int yPosition = 100;
+        segmentos.add(new Segment(xPosition, yPosition, direccion, COLOR_SERPIENTE));
     }
 
     /*
@@ -115,10 +89,10 @@ public class Snake
     public boolean colisionaConBordes(Segment segmento)
     {
         boolean colisiona = false;
-        if ((segmento.getPosicionFinalX() >= anchoLienzo - MARGEN_LIENZO) ||
-        (segmento.getPosicionFinalY() >= altoLienzo - MARGEN_LIENZO) ||
-        (segmento.getPosicionFinalX() <= MARGEN_LIENZO) ||
-        (segmento.getPosicionFinalY() <= MARGEN_LIENZO)) {
+        if ((segmento.getPosicionFinalX() > anchoLienzo - MARGEN_LIENZO) ||
+        (segmento.getPosicionFinalY() > altoLienzo - MARGEN_LIENZO) ||
+        (segmento.getPosicionFinalX() < MARGEN_LIENZO) ||
+        (segmento.getPosicionFinalY() < MARGEN_LIENZO)) {
             colisiona = true;
         }
         return colisiona;
@@ -137,16 +111,16 @@ public class Snake
         }
         return colisiona;
     }
-    
+
     /**
      * Simula el movimiento de la serpiente. 
      */
     public boolean mover()
     {
         segmentos.remove(0);
-        return addSegment();
+        return addSegmentMovimiento();
     }
-    
+
     /**
      * Devuelve la posicion final X del segmento en el que se encuentra la cabeza
      */
@@ -154,7 +128,7 @@ public class Snake
     {
         return segmentos.get(segmentos.size() - 1).getPosicionFinalX();
     }
-    
+
     /**
      * Devuelve la posicion final Y del segmento en el que se encuentra la cabeza
      */
@@ -162,56 +136,58 @@ public class Snake
     {
         return segmentos.get(segmentos.size() - 1).getPosicionFinalY();
     }
-    
-    /**
-     * Devuelve la posicion inicial X del segmento en el que se encuentra la cabeza
-     */
-    public int getPosicionXInicialUltimo()
-    {
-        return segmentos.get(segmentos.size() - 1).getPosicionInicialX();
-    }
-    
-    /**
-     * Devuelve la posicion incial Y del segmento en el que se encuentra la cabeza
-     */
-    public int getPosicionYInicialUltimo()
-    {
-        return segmentos.get(segmentos.size() - 1).getPosicionInicialY();
-    }
-    
+
     /**
      * Coprueba si la galleta que le pasamos como parámetro
      * puede ser comida por la serpiente
      */
     public boolean comerGalleta(Galleta galleta)
     {
-        boolean comer = false;
-        int posicionFinalX = galleta.getPosicionFinalX();// Puntos de la galleta
-        int posicionFinalY = galleta.getPosicionFinalY();
-        int posicionInicialY = galleta.getPosicionInicialY();
-        int posicionInicialX = galleta.getPosicionInicialX();
-        
-        int xFinal = getPosicionXFinalUltimo();// Sacamos estos puntos que vamos
-        int yFinal = getPosicionYFinalUltimo();// a usar en las dos alternativas
-        
-        int radioCabeza = TAMANO_CABEZA / 2;
-        
-        if (getPosicionYFinalUltimo() == getPosicionYInicialUltimo()) {
-            int xInicial = getPosicionXInicialUltimo();
-            if ((xFinal >= posicionInicialX && xInicial <= posicionFinalX) || (xFinal <= posicionFinalX && xInicial >= posicionInicialX)){
-                if ((yFinal + radioCabeza > posicionInicialY) && (yFinal - radioCabeza < posicionFinalY)) {
-                    comer = true;
-                }
-            }
+        return (galleta.getPosicionY() == getPosicionYFinalUltimo() && galleta.getPosicionX() == getPosicionXFinalUltimo());
+    }
+
+    /**
+     * Cambia la direccion de la serpiente según la tecla que se pulse
+     */
+    public void moverSnakeTeclado(String tecla)
+    {
+        if (tecla.equalsIgnoreCase(up)) {
+            direccion = 270;
         }
-        else {
-            int yInicial = getPosicionYInicialUltimo();
-            if ((yFinal >= posicionInicialY && yInicial <= posicionFinalY) || (yFinal <= posicionFinalY && yInicial >= posicionInicialY)){
-                if (xFinal + radioCabeza > posicionInicialX && xFinal - radioCabeza < posicionFinalX) {
-                    comer = true;
-                }
-            }
+        else if (tecla.equalsIgnoreCase(down)) {
+            direccion = 90;
         }
-        return comer;
+        else if (tecla.equalsIgnoreCase(lef)) {
+            direccion = 180;
+        }
+        else if (tecla.equalsIgnoreCase(rig)) {
+            direccion = 0;
+        }        
+    }
+
+    /**
+     * Añade los segmentos inicales de la serpiente menos el primero
+     * y los que se aumentan cuando come una galleta
+     */
+    public boolean addSegmentMovimiento() {
+        int posicionOrigenX = segmentos.get(segmentos.size() - 1).getPosicionFinalX();
+        int posicionOrigenY = segmentos.get(segmentos.size() - 1).getPosicionFinalY();
+        Segment posibleNuevoSegmento = new Segment(posicionOrigenX, posicionOrigenY, direccion, COLOR_SERPIENTE);
+        boolean segmentoAdicionado = esSegmentoValido(posibleNuevoSegmento);                             
+
+        //Si hemos encontrado un segmento valido lo añadimos a la
+        //serpiente; si no, informamos por pantalla
+        if (segmentoAdicionado) {
+            segmentos.add(posibleNuevoSegmento);
+        }
+        return segmentoAdicionado;
+    }
+
+    /*
+     * Devuelve una coleccion con todos los segmentos de la serpiente
+     */
+    public ArrayList<Segment> getSegmentos()
+    {
+        return segmentos;
     }
 }

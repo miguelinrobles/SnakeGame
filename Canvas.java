@@ -19,7 +19,8 @@ public class Canvas
     private Graphics2D graphic;
     private Color backgroundColor;
     private Image canvasImage;
-
+    private Keyboard keyboard;
+    
     /**
      * Create a Canvas with default height, width and background color 
      * (300, 300, white).
@@ -52,12 +53,19 @@ public class Canvas
     {
         frame = new JFrame();
         canvas = new CanvasPane();
+        keyboard = new Keyboard();
         frame.setContentPane(canvas);
         frame.setTitle(title);
         canvas.setPreferredSize(new Dimension(width, height));
         backgroundColor = bgColor;
         frame.pack();
+        frame.add(keyboard);
         setVisible(true);
+    }
+   
+    public void addKeyboard(Snake snake) 
+    {
+        keyboard.addSnake(snake);
     }
 
     /**

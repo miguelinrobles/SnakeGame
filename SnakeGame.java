@@ -7,13 +7,17 @@ public class SnakeGame
     private Snake serpiente;
     private static final int ANCHO_LIENZO = 500;
     private static final int ALTO_LIENZO = 500;
-    private ArrayList<Galleta> galletas;
+    private Galleta galleta;
+
     /*
      * Constructor de la clase Snake
      */
     public SnakeGame()
-    {
+    {        
         lienzo = new Canvas("Snake game", ANCHO_LIENZO, ALTO_LIENZO);
+        galleta = null;
+        serpiente = new Snake(ANCHO_LIENZO,ALTO_LIENZO, "w", "x", "a", "d");
+        lienzo.addKeyboard(serpiente);
     }
 
     /*
@@ -21,57 +25,54 @@ public class SnakeGame
      */
     private void drawSnake()
     {
-        serpiente = new Snake(ANCHO_LIENZO,ALTO_LIENZO);
-        lienzo.erase();
+        lienzo.erase();        
         serpiente.dibujar(lienzo);
     }
-    
+
     /**
      * Mueve la serpiente por toda la pantalla. 
      * La animación termina en caso de que la serpiente quede encerrada sobre ella misma o sobre un borde del lienzo. 
+     * Cada vez que come una galleta, la serpiente aumenta de longitud
      * En este caso el juego acaba y muestra el mensaje "Game Over"
      */
     private void animateSnake() {
         boolean valorMover = true;
-        while(valorMover) {
-            int index = 0;          
-            while (index < galletas.size() && valorMover) {
-                Galleta galleta = galletas.get(index);
-                if (serpiente.comerGalleta(galleta)) {
-                    galletas.remove(galleta);
-                    galleta.borrar(lienzo);
-                    serpiente.borrar(lienzo);
-                    valorMover = serpiente.addSegment();
-                    serpiente.dibujar(lienzo);
-                    lienzo.wait(150);
-                }
-                index++;
-            }
+        while (valorMover) {
+            if (serpiente.comerGalleta(galleta)) {
+                galleta.borrar(lienzo);
+                serpiente.borrar(lienzo);
+                valorMover = serpiente.addSegmentMovimiento();
+                serpiente.dibujar(lienzo);
+                dibujarGalleta();
+                lienzo.wait(100);
+            }           
             serpiente.borrar(lienzo);
             valorMover = serpiente.mover();
             serpiente.dibujar(lienzo);
-            lienzo.wait(150);
+            lienzo.wait(200);           
         }
-
         final int SITUACION_X_TITULO = ANCHO_LIENZO / 2 -30;
         final int SITUACION_Y_TITULO = ALTO_LIENZO / 2 -30;
         lienzo.drawString("Game Over", SITUACION_X_TITULO, SITUACION_Y_TITULO);
     }
-    
+
     /**
-     * Dibuja una serie de galletas en la pantalla
-     * Cada vez que la serpiente come una galleta se hace un segmento más larga 
-     * La serpiente se mueve por pantalla sin parar hasta que se quede sin salida
+     * Pone una galleta en la pantalla sin que coincida
+     * con la posición de la serpiente
+     */
+    private void dibujarGalleta() 
+    {
+        galleta = new Galleta(ANCHO_LIENZO, ALTO_LIENZO, serpiente.getSegmentos());
+        galleta.dibujar(lienzo);
+    }
+
+    /**
+     * Inicia el juego dibujando la serpiente, la galleta y comenzando el movimiento de la serpiente
      */
     public void startGame()
     {
         drawSnake();
-        galletas = new ArrayList<>();
-        final int NUMERO_GALLETAS = 50; 
-        for (int index = 0; index < NUMERO_GALLETAS; index++) {
-            galletas.add(new Galleta(ANCHO_LIENZO, ALTO_LIENZO));
-            galletas.get(index).dibujar(lienzo);
-        }
+        dibujarGalleta();
         animateSnake();
     }
 }

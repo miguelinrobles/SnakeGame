@@ -13,7 +13,7 @@ public class Segment
     // Punto inicial Y
     private int posicionY;
     // Longitud del segmento
-    public static final int LONGITUD_SEGMENTO = 18;
+    public static final int LONGITUD_SEGMENTO = 10;
     // Direccion en la que se dibuja el segmento
     private int direccion;
     // Color del segmento
