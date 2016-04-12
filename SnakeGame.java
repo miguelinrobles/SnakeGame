@@ -51,7 +51,7 @@ public class SnakeGame
         puntos += 10;
         lienzo.drawString("PUNTOS: " + puntos, SITUACION_X_MARCADOR, SITUACION_Y_MARCADOR);
     }
-    
+
     /**
      * Muestra mensaje cuando se acaba el juego
      */

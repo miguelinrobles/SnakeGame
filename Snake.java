@@ -15,9 +15,8 @@ public class Snake
     public static final int NUMERO_SEGMENTOS_INICIALES = 5;
     public static final Color COLOR_SERPIENTE = Color.BLACK;
     private ArrayList<Segment> segmentos;   
-    public static final int DIFERENCIA_DE_GRADOS_ENTRE_DIRECCIONES = 90;
     public static final int MARGEN_LIENZO = 20;
-    public static final int TAMANO_CABEZA = 8;
+    public static final int TAMANO_CABEZA = 10;
     // Atributos de las teclas para el movimiento
     private String up, down, lef, rig;
     // Direccion inicial hacia abajo
@@ -44,11 +43,12 @@ public class Snake
      */
     public void dibujar(Canvas lienzo)
     {
+        lienzo.setForegroundColor(COLOR_SERPIENTE);
         for (Segment segmento : segmentos) {
             segmento.dibujar(lienzo);
         }
-        Segment ultimoSegmento = segmentos.get(segmentos.size()-1);
-        lienzo.fillCircle(ultimoSegmento.getPosicionFinalX()-(TAMANO_CABEZA/2),ultimoSegmento.getPosicionFinalY()-(TAMANO_CABEZA/2), TAMANO_CABEZA);
+        Segment ultimoSegmento = segmentos.get(segmentos.size() - 1);
+        lienzo.fillCircle(ultimoSegmento.getPosicionFinalX() - 1, ultimoSegmento.getPosicionFinalY() - 1, TAMANO_CABEZA);
     }
 
     /*
@@ -59,8 +59,8 @@ public class Snake
         for (Segment segmento : segmentos) {
             segmento.borrar(lienzo);
         }
-        Segment ultimoSegmento = segmentos.get(segmentos.size()-1);
-        lienzo.eraseCircle(ultimoSegmento.getPosicionFinalX()-(TAMANO_CABEZA/2), ultimoSegmento.getPosicionFinalY()-(TAMANO_CABEZA/2), TAMANO_CABEZA);
+        Segment ultimoSegmento = segmentos.get(segmentos.size() - 1);
+        lienzo.eraseCircle(ultimoSegmento.getPosicionInicialX() - 1, ultimoSegmento.getPosicionInicialY() - 1, TAMANO_CABEZA);
     }
 
     /*
@@ -70,7 +70,7 @@ public class Snake
     {
         int xPosition = 200;
         int yPosition = 100;
-        segmentos.add(new Segment(xPosition, yPosition, direccion, COLOR_SERPIENTE));
+        segmentos.add(new Segment(xPosition, yPosition, direccion));
     }
 
     /*
@@ -124,7 +124,7 @@ public class Snake
     /**
      * Devuelve la posicion final X del segmento en el que se encuentra la cabeza
      */
-    public int getPosicionXFinalUltimo()
+    public int getPosicionXUltimo()
     {
         return segmentos.get(segmentos.size() - 1).getPosicionFinalX();
     }
@@ -132,7 +132,7 @@ public class Snake
     /**
      * Devuelve la posicion final Y del segmento en el que se encuentra la cabeza
      */
-    public int getPosicionYFinalUltimo()
+    public int getPosicionYUltimo()
     {
         return segmentos.get(segmentos.size() - 1).getPosicionFinalY();
     }
@@ -143,7 +143,7 @@ public class Snake
      */
     public boolean comerGalleta(Galleta galleta)
     {
-        return (galleta.getPosicionY() == getPosicionYFinalUltimo() && galleta.getPosicionX() == getPosicionXFinalUltimo());
+        return (galleta.getPosicionY() == getPosicionYUltimo() && galleta.getPosicionX() == getPosicionXUltimo());
     }
 
     /**
@@ -172,7 +172,7 @@ public class Snake
     public boolean addSegmentMovimiento() {
         int posicionOrigenX = segmentos.get(segmentos.size() - 1).getPosicionFinalX();
         int posicionOrigenY = segmentos.get(segmentos.size() - 1).getPosicionFinalY();
-        Segment posibleNuevoSegmento = new Segment(posicionOrigenX, posicionOrigenY, direccion, COLOR_SERPIENTE);
+        Segment posibleNuevoSegmento = new Segment(posicionOrigenX, posicionOrigenY, direccion);
         boolean segmentoAdicionado = esSegmentoValido(posibleNuevoSegmento);                             
 
         //Si hemos encontrado un segmento valido lo añadimos a la

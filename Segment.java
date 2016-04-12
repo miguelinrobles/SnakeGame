@@ -13,21 +13,18 @@ public class Segment
     // Punto inicial Y
     private int posicionY;
     // Longitud del segmento
-    public static final int LONGITUD_SEGMENTO = 10;
+    public static final int LONGITUD_SEGMENTO = 9;
     // Direccion en la que se dibuja el segmento
     private int direccion;
-    // Color del segmento
-    private Color color;
 
     /**
      * Constructor for objects of class Segmen
      */
-    public Segment(int posicionX, int posicionY, int direccion, Color color)
+    public Segment(int posicionX, int posicionY, int direccion)
     {
         this.posicionX = posicionX;
         this.posicionY = posicionY;
         this.direccion = direccion;
-        this.color = color;
     }
 
     /**
@@ -35,10 +32,7 @@ public class Segment
      */
     public void dibujar(Canvas lienzo)
     {
-        Pen pen = new Pen(posicionX, posicionY, lienzo);
-        pen.setColor(color);
-        pen.turnTo(direccion);
-        pen.move(LONGITUD_SEGMENTO);
+        lienzo.fillRectangle(posicionX, posicionY, LONGITUD_SEGMENTO, LONGITUD_SEGMENTO);
     }
 
     /**
@@ -46,10 +40,7 @@ public class Segment
      */
     public void borrar(Canvas lienzo)
     {
-        Pen pen = new Pen(posicionX, posicionY, lienzo);
-        pen.setColor(lienzo.getBackgroundColor());
-        pen.turnTo(direccion);
-        pen.move(LONGITUD_SEGMENTO);
+       lienzo.eraseRectangle(posicionX, posicionY, LONGITUD_SEGMENTO, LONGITUD_SEGMENTO);
     }
 
     /**
@@ -75,10 +66,10 @@ public class Segment
     {
         int posicionXFinal = posicionX;
         if (direccion == 0) {
-            posicionXFinal += LONGITUD_SEGMENTO;
+            posicionXFinal += LONGITUD_SEGMENTO + 1;
         }
         else if (direccion == 180) {
-            posicionXFinal -= LONGITUD_SEGMENTO;
+            posicionXFinal -= LONGITUD_SEGMENTO + 1;
         }
         return posicionXFinal;
     }
@@ -90,10 +81,10 @@ public class Segment
     {
         int posicionYFinal = posicionY;
         if (direccion == 90) {
-            posicionYFinal += LONGITUD_SEGMENTO;
+            posicionYFinal += LONGITUD_SEGMENTO + 1;
         }
         else if (direccion == 270) {
-            posicionYFinal -= LONGITUD_SEGMENTO;
+            posicionYFinal -= LONGITUD_SEGMENTO + 1;
         }
         return posicionYFinal;
     }

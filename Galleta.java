@@ -34,7 +34,7 @@ public class Galleta
     public void dibujar(Canvas lienzo)
     {
         lienzo.setForegroundColor(COLOR_GALLETA);
-        lienzo.fillCircle(posicionX - DIAMETRO_GALLETA / 2, posicionY - DIAMETRO_GALLETA / 2, DIAMETRO_GALLETA);
+        lienzo.fillCircle(posicionX, posicionY, DIAMETRO_GALLETA);
     }
 
     /**
@@ -42,7 +42,7 @@ public class Galleta
      */
     public void borrar(Canvas lienzo)
     {
-        lienzo.eraseCircle(posicionX - DIAMETRO_GALLETA / 2, posicionY - DIAMETRO_GALLETA / 2, DIAMETRO_GALLETA);
+        lienzo.eraseCircle(posicionX, posicionY, DIAMETRO_GALLETA);
     }
 
     /**
@@ -61,18 +61,23 @@ public class Galleta
         return posicionY;
     }
 
+    /**
+     * Genera puntos aleatorios para las galletas
+     * simpre que puedan ser comidas por la serpiente
+     */
     private void generaPuntosGalleta()
     {
         Random aleatorio = new Random();
         int margenLienzo = Snake.MARGEN_LIENZO;
-        posicionX = aleatorio.nextInt((anchoLienzo - (2 * margenLienzo))  / Segment.LONGITUD_SEGMENTO) 
-        * Segment.LONGITUD_SEGMENTO + margenLienzo;
-        posicionY = aleatorio.nextInt((anchoLienzo - (2 * margenLienzo))  / Segment.LONGITUD_SEGMENTO)
-        * Segment.LONGITUD_SEGMENTO + margenLienzo;
+        posicionX = aleatorio.nextInt((anchoLienzo - (2 * margenLienzo))  / (Segment.LONGITUD_SEGMENTO + 1)) 
+        * (Segment.LONGITUD_SEGMENTO + 1) + margenLienzo;
+        posicionY = aleatorio.nextInt((anchoLienzo - (2 * margenLienzo))  /(Segment.LONGITUD_SEGMENTO + 1))
+        * (Segment.LONGITUD_SEGMENTO + 1) + margenLienzo;
     }
 
     /**
-     * Establece las posiciones válidas para la galletas
+     * Comprueba que la nueva galleta no sea creada donde se
+     * encuentra la serpiente
      */
     private void poscionesValidas(ArrayList<Segment> segments)
     {  
